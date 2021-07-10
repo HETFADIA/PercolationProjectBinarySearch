@@ -53,6 +53,22 @@ function reset() {
         element[i].style.backgroundColor = "black"
         // percolatevar[1].style.color="red";
     }
+    function addedge(u, v) {
+        adj[v].add(u);
+        adj[u].add(v);
+    }
+    // i am adding unidirectional edges here they have been taken to stop backflush
+    function addUniDirectEdge(u, v) {
+        adj[u].add(v);
+    }
+    // adding all upper edges with -1
+    for (var i = 0; i < lengthOfTopRow; i++) {
+        addedge(i, -1);
+    }
+    // adding all lower edges with -2
+    for (var i = element.length - lengthOfTopRow; i < element.length; i++) {
+        addUniDirectEdge(i, -2);
+    }
     count = 0
     watercells = 0;
     percolatevar[1].innerHTML = "System Does Not Percolate"
@@ -152,14 +168,7 @@ function ithbox(theta,color=1) {
     function addUniDirectEdge(u, v) {
         adj[u].add(v);
     }
-    // adding all upper edges with -1
-    for (var i = 0; i < lengthOfTopRow; i++) {
-        addedge(i, -1);
-    }
-    // adding all lower edges with -2
-    for (var i = element.length - lengthOfTopRow; i < element.length; i++) {
-        addUniDirectEdge(i, -2);
-    }
+    
     // adding all adjacent and upper edges
     for (var i = 0; i < element.length; i++) {
         if (dict[i] == 1 & dict[i + lengthOfTopRow] == 1) {
