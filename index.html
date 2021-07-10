@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>Percolation Problem</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body onload="myFunction()">
+    <span id="matrix">
+    
+    </span>
+    <br>
+    <br>
+    <span>
+        Enter length of the grid(max 70):  <input type="text" id="length" value="10">
+    </span>
+    <br>
+    <br>
+    <!-- below is the box which shows the percentage of cells on which odd number of clicks is done and the cells on which water has flown  -->
+    <div class="alert alert-success changetext" role="alert">
+        The percentage of active cells is:0.00%
+        <br>
+        The percentage of water occupied cells is:0.00%
+
+
+    </div>
+    <div class="alert alert-primary changetext" role="alert">
+        System Does Not Percolate.
+    </div>
+    
+    <button type="button" class="btn btn-primary" onclick="random()">Simulate</button>
+    <button type="button" class="btn btn-primary" onclick="myFunction()">Manual</button>
+    
+    
+
+    <button type="reset button" class="reset btn btn-primary" onclick="reset()">Reset</button>
+
+    <script type="text/javascript" src="main.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
