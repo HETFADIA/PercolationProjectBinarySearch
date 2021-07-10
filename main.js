@@ -1,4 +1,25 @@
-
+function int(a,b=undefined){
+    if(b==undefined){
+        return parseInt(a);
+    }
+    else if(b==0){
+        
+        if(a.slice(0,2)=='0b'){
+            return parseInt(a.slice(2),2)
+        }
+        else if(a.slice(0,2)=="0x"){
+            return parseInt(a.slice(2),16)
+        }
+        else if(a.slice(0,2)=="0o"){
+            console.log("oct")
+            return parseInt(a.slice(2),8)
+        }
+        return parseInt(a,10)
+    }
+    else{
+        return parseInt(a,b);
+    }
+}
 // using element i have selected all the above boxes
 element = document.getElementsByClassName("container");
 var TotalCells= element.length;
@@ -39,6 +60,7 @@ function reset() {
 
     percolatevar[0].innerHTML += "The percentage of water occupied cells is:" + ((watercells / element.length) * 100).toFixed(2) + "%"
 }
+var items;
 function random(){
     myFunction();
     reset();
@@ -50,7 +72,7 @@ function random(){
         dictRandom[i]=randomCellMap;
     }
     
-    var items = Object.keys(dictRandom).map(function(key) {
+    items = Object.keys(dictRandom).map(function(key) {
         return [ key,dictRandom[key]];
     });
     
@@ -64,28 +86,57 @@ function random(){
             return second[0]-first[0];
         }
     });
-    for(var i=0;i<element.length;i++){
-        var cell=items[i][0];
-        ithbox(cell);
+    low=1
+    high=element.length;
+    answer=0
+    while(low<high){
+        mid=int((low+high)/2)
+        reset()
+        flg=0;
+        for(var i=0;i<=mid;i++){
+            var cell=items[i][0];
+            ithbox(cell,color=1);
+            
+        }
         if (connected[-1] == connected[-2] & connected[-1] == 1) {
-
-            break;
+            flg=1
+            
+        }
+        if(flg){
+            high=mid;
+            answer=mid
+        }
+        else{
+            low=mid+1;
         }
     }
+    console.log("answer",answer)
+    // reset()
+    // for(var i=0;i<element.length;i++){
+    //     var cell=items[i][0];
+    //     ithbox(cell);
+    //     if (connected[-1] == connected[-2] & connected[-1] == 1) {
+    //         console.log('real answer is',i)
+    //         break;
+    //     }
+    // }
+
 
 }
 
-function ithbox(theta) {
-    
-    if (dict[theta] == 0) {
-        // if the box has been visited odd times i make it green
-        element[theta].style.backgroundColor = "green";
-        dict[theta]++;
-    }
-    else if (dict[theta] == 1) {
-        // if the box has been visited even times i make it black
-        element[theta].style.backgroundColor = "black";
-        dict[theta]--;
+function ithbox(theta,color=1) {
+    if(color){
+
+        if (dict[theta] == 0) {
+            // if the box has been visited odd times i make it green
+            element[theta].style.backgroundColor = "green";
+            dict[theta]++;
+        }
+        else if (dict[theta] == 1) {
+            // if the box has been visited even times i make it black
+            element[theta].style.backgroundColor = "black";
+            dict[theta]--;
+        }
     }
     // i am reseting adj connected and visited time order n
     for (var i = -2; i < element.length; i++) {
