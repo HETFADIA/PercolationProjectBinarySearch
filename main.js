@@ -141,8 +141,7 @@ function ithbox(theta,color=1) {
     // i am reseting adj connected and visited time order n
     for (var i = -2; i < element.length; i++) {
         visited[i] = 0;
-        connected[i] = 0;
-        adj[i] = new Set();
+        
     }
     // i am adding edges here
     function addedge(u, v) {
