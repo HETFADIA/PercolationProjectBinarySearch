@@ -113,10 +113,10 @@ function random(){
             var cell=items[i][0];
             if(i==mid){
 
-                ithbox(cell,color=1,dfs=1);
+                ithbox(cell,color=1,dfs=1,update=0);
             }
             else{
-                ithbox(cell,color=1,dfs=0);
+                ithbox(cell,color=1,dfs=0,update=0);
             }
             
         }
@@ -152,7 +152,7 @@ function random(){
 
 }
 
-function ithbox(theta,color=1,dfs=1) {
+function ithbox(theta,color=1,dfs=1,update=1) {
     if(color){
 
         if (dict[theta] == 0) {
@@ -211,36 +211,39 @@ function ithbox(theta,color=1,dfs=1) {
         // dfs function ends here
         // we run a dfs through -1 and check if we reach -2
         dfs(-1);
-        for (var i = 0; i < element.length; i++) {
-            if (dict[i] == 1 & visited[i] == 1) {
+        if(update){
+
+            for (var i = 0; i < element.length; i++) {
+                if (dict[i] == 1 & visited[i] == 1) {
                 element[i].style.backgroundColor = "blue";
                 
+                }
+                if (visited[i] == 0 & dict[i] == 1) {
+                    element[i].style.backgroundColor = "green";
+                }
             }
-            if (visited[i] == 0 & dict[i] == 1) {
-                element[i].style.backgroundColor = "green";
+            var count = 0;
+            var watercells = 0;
+            for (var i = 0; i < element.length; i++) {
+                if (dict[i] == 1) {
+                    count++;
+                }
+                if (visited[i] == 1 && dict[i] == 1) {
+                    watercells++;
+                }
             }
-        }
-        var count = 0;
-        var watercells = 0;
-        for (var i = 0; i < element.length; i++) {
-            if (dict[i] == 1) {
-                count++;
+            
+            if (connected[-1] == connected[-2] & connected[-1] == 1) {
+                percolatevar[1].innerHTML = "System Percolates"
             }
-            if (visited[i] == 1 && dict[i] == 1) {
-                watercells++;
+            else {
+                percolatevar[1].innerHTML = "System Does Not Percolate"
             }
+            percolatevar[0].innerHTML = "The percentage of active cells is:" + ((count / element.length) * 100).toFixed(2) + "%" + "<br>"
+            
+            percolatevar[0].innerHTML += "The percentage of water occupied cells is:" + ((watercells / element.length) * 100).toFixed(2) + "%"
+            
         }
-        
-        if (connected[-1] == connected[-2] & connected[-1] == 1) {
-            percolatevar[1].innerHTML = "System Percolates"
-        }
-        else {
-            percolatevar[1].innerHTML = "System Does Not Percolate"
-        }
-        percolatevar[0].innerHTML = "The percentage of active cells is:" + ((count / element.length) * 100).toFixed(2) + "%" + "<br>"
-        
-        percolatevar[0].innerHTML += "The percentage of water occupied cells is:" + ((watercells / element.length) * 100).toFixed(2) + "%"
-        
         
         
     }
