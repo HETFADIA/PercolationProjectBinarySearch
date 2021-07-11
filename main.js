@@ -127,15 +127,15 @@ function random(){
         }
     }
     console.log("answer",answer)
-    // reset()
-    // for(var i=0;i<element.length;i++){
-    //     var cell=items[i][0];
-    //     ithbox(cell);
-    //     if (connected[-1] == connected[-2] & connected[-1] == 1) {
-    //         console.log('real answer is',i)
-    //         break;
-    //     }
-    // }
+    reset()
+    for(var i=0;i<=answer;i++){
+        var cell=items[i][0];
+        ithbox(cell);
+        if (connected[-1] == connected[-2] & connected[-1] == 1) {
+            console.log('real answer is',i)
+            break;
+        }
+    }
 
 
 }
