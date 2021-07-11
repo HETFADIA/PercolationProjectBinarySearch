@@ -111,7 +111,13 @@ function random(){
         flg=0;
         for(var i=0;i<=mid;i++){
             var cell=items[i][0];
-            ithbox(cell,color=1);
+            if(i==mid){
+
+                ithbox(cell,color=1,dfs=1);
+            }
+            else{
+                ithbox(cell,color=1,dfs=0);
+            }
             
         }
         if (connected[-1] == connected[-2] & connected[-1] == 1) {
@@ -130,7 +136,13 @@ function random(){
     reset()
     for(var i=0;i<=answer;i++){
         var cell=items[i][0];
-        ithbox(cell);
+        if(i==answer){
+
+            ithbox(cell,color=1,dfs=1);
+        }
+        else{
+            ithbox(cell,color=1,dfs=0);
+        }
         if (connected[-1] == connected[-2] & connected[-1] == 1) {
             console.log('real answer is',i)
             break;
@@ -140,7 +152,7 @@ function random(){
 
 }
 
-function ithbox(theta,color=1) {
+function ithbox(theta,color=1,dfs=1) {
     if(color){
 
         if (dict[theta] == 0) {
@@ -154,81 +166,84 @@ function ithbox(theta,color=1) {
             dict[theta]--;
         }
     }
-    // i am reseting adj connected and visited time order n
-    for (var i = -2; i < element.length; i++) {
-        visited[i] = 0;
+    if(dfs){
+
+        // i am reseting adj connected and visited time order n
+        for (var i = -2; i < element.length; i++) {
+            visited[i] = 0;
+            
+        }
+        // i am adding edges here
+        function addedge(u, v) {
+            adj[v].add(u);
+            adj[u].add(v);
+        }
+        // i am adding unidirectional edges here they have been taken to stop backflush
+        function addUniDirectEdge(u, v) {
+            adj[u].add(v);
+        }
+        
+        // adding all adjacent and upper edges
+        for (var i = 0; i < element.length; i++) {
+            if (dict[i] == 1 & dict[i + lengthOfTopRow] == 1) {
+                addedge(i, i + lengthOfTopRow);
+            }
+            if (i % lengthOfTopRow != (lengthOfTopRow-1) & dict[i] == 1 & dict[i + 1] == 1) {
+                addedge(i, i + 1);
+            }
+        }
+        // the dfs starts here
+        function printOne(v) {
+            if (visited[v] == 0) {
+                
+                dfs(v);
+            }
+        }
+        function dfs(v) {
+            visited[v] = 1;
+            
+            if (v == -2) {
+                connected[-1] = 1;
+                connected[-2] = 1;
+            }
+            adj[v].forEach(printOne);
+        }
+        // dfs function ends here
+        // we run a dfs through -1 and check if we reach -2
+        dfs(-1);
+        for (var i = 0; i < element.length; i++) {
+            if (dict[i] == 1 & visited[i] == 1) {
+                element[i].style.backgroundColor = "blue";
+                
+            }
+            if (visited[i] == 0 & dict[i] == 1) {
+                element[i].style.backgroundColor = "green";
+            }
+        }
+        var count = 0;
+        var watercells = 0;
+        for (var i = 0; i < element.length; i++) {
+            if (dict[i] == 1) {
+                count++;
+            }
+            if (visited[i] == 1 && dict[i] == 1) {
+                watercells++;
+            }
+        }
+        
+        if (connected[-1] == connected[-2] & connected[-1] == 1) {
+            percolatevar[1].innerHTML = "System Percolates"
+        }
+        else {
+            percolatevar[1].innerHTML = "System Does Not Percolate"
+        }
+        percolatevar[0].innerHTML = "The percentage of active cells is:" + ((count / element.length) * 100).toFixed(2) + "%" + "<br>"
+        
+        percolatevar[0].innerHTML += "The percentage of water occupied cells is:" + ((watercells / element.length) * 100).toFixed(2) + "%"
+        
+        
         
     }
-    // i am adding edges here
-    function addedge(u, v) {
-        adj[v].add(u);
-        adj[u].add(v);
-    }
-    // i am adding unidirectional edges here they have been taken to stop backflush
-    function addUniDirectEdge(u, v) {
-        adj[u].add(v);
-    }
-    
-    // adding all adjacent and upper edges
-    for (var i = 0; i < element.length; i++) {
-        if (dict[i] == 1 & dict[i + lengthOfTopRow] == 1) {
-            addedge(i, i + lengthOfTopRow);
-        }
-        if (i % lengthOfTopRow != (lengthOfTopRow-1) & dict[i] == 1 & dict[i + 1] == 1) {
-            addedge(i, i + 1);
-        }
-    }
-    // the dfs starts here
-    function printOne(v) {
-        if (visited[v] == 0) {
-
-            dfs(v);
-        }
-    }
-    function dfs(v) {
-        visited[v] = 1;
-
-        if (v == -2) {
-            connected[-1] = 1;
-            connected[-2] = 1;
-        }
-        adj[v].forEach(printOne);
-    }
-    // dfs function ends here
-    // we run a dfs through -1 and check if we reach -2
-    dfs(-1);
-    for (var i = 0; i < element.length; i++) {
-        if (dict[i] == 1 & visited[i] == 1) {
-            element[i].style.backgroundColor = "blue";
-
-        }
-        if (visited[i] == 0 & dict[i] == 1) {
-            element[i].style.backgroundColor = "green";
-        }
-    }
-    var count = 0;
-    var watercells = 0;
-    for (var i = 0; i < element.length; i++) {
-        if (dict[i] == 1) {
-            count++;
-        }
-        if (visited[i] == 1 && dict[i] == 1) {
-            watercells++;
-        }
-    }
-
-    if (connected[-1] == connected[-2] & connected[-1] == 1) {
-        percolatevar[1].innerHTML = "System Percolates"
-    }
-    else {
-        percolatevar[1].innerHTML = "System Does Not Percolate"
-    }
-    percolatevar[0].innerHTML = "The percentage of active cells is:" + ((count / element.length) * 100).toFixed(2) + "%" + "<br>"
-
-    percolatevar[0].innerHTML += "The percentage of water occupied cells is:" + ((watercells / element.length) * 100).toFixed(2) + "%"
-
-
-
 }
 
 
