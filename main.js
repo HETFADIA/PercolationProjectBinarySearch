@@ -256,7 +256,7 @@ function myFunction(){
     var n=+document.getElementById("length").value;
     console.log(n)
     for( var i=0;i<n*n;i++){
-        string+='<div class="container" onclick="ithbox('+i+')"></div>'
+        string+='<div class="container"></div>'
     }
     for(var i=0;i<32;i++){
         string+="<br>";
